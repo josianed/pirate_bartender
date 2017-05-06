@@ -20,7 +20,7 @@ def main():
 
 def order(customer_name, place_order):
     '''Takes customer's order and makes drink if desired, or exits program if not'''
-    while place_order == "yes":
+    while place_order == "yes" or place_order == "y":
         drink_preferences()
         drink = make_drink(preferences)
         #generate name
@@ -32,7 +32,7 @@ def order(customer_name, place_order):
         print("Here's the {}, {}!".format(name, customer_name))
         print(*drink, sep=", ")
         place_order = input("Would ye like another? ")
-    if place_order == "no":
+    if place_order == "no" or place_order == "n":
         print("Fair winds and following seas matey!")
         sys.exit()
     else:
@@ -72,20 +72,65 @@ def make_drink(preferences):
     for flavour, isPreference in preferences.items():
         if preferences[flavour] == True:
             ingredient = random.choice(ingredients[flavour])
+            while not stock_control(ingredient):
+                ingredient = random.choice(ingredients[flavour])
             # print("Added {} to yer drink!".format(ingredient))
             drink.append(ingredient)
+
+    check_stock()
 
     return drink
 
 
 def cocktail_name():
+    '''Generates a cocktail name by randomly selecting an adjective and noun from lists'''
     adjective = random.choice(adjectives)
     noun = random.choice(nouns)
     name = "{} {}".format(adjective, noun)
     return name
 
+def stock_control(ingredient):
+    '''Checks if ingredient for drink is available; if it is, removes item from inventory'''
+    if stock[ingredient] == 0:
+        return False
+    else:
+        print("before: {}".format(stock[ingredient]))
+        stock[ingredient] -= 1
+        print("after: {}".format(stock[ingredient]))
+        return True
+
+def check_stock():
+    '''Checks if supplies are low'''
+    sum = 0
+    for item, amount in stock.items():
+        sum += stock[item]
+    if sum < len(stock):
+        restock()
+
+def restock():
+    '''Adds inventory to each item in in stock'''
+    for item, amount in stock.items():
+        stock[item] = 5
 
 #Dictionaries
+stock = {
+    "glug of rum": 2,
+    "slug of whisky": 2,
+    "splash of gin": 2,
+    "olive on a stick": 2,
+    "salt-dusted rim": 2,
+    "rasher of bacon": 2,
+    "shake of bitters": 2,
+    "splash of tonic": 2,
+    "twist of lemon peel": 2,
+    "sugar cube": 2,
+    "spoonful of honey": 2,
+    "spash of cola": 2,
+    "slice of orange": 2,
+    "dash of cassis": 2,
+    "cherry on top": 2,
+}
+
 preferences = {}
 
 cocktails = {
@@ -138,22 +183,8 @@ nouns = ["aardvark", "abacus", "abbey", "abdomen", "ability", "abolishment", "ab
 "baobab", "bar", "barbeque", "barber", "barbiturate", "barge", "baritone", "barium", "barn", "barometer", "barracks", "barstool", "base", "baseball", "basement",
 "basin", "basis", "basket", "basketball", "bass", "bassinet", "bassoon", "bat", "bath", "bather", "bathhouse", "bathrobe", "bathroom", "bathtub", "batter",
 "battery", "batting", "battle", "battleship", "bay", "bayou", "beach", "bead", "beak", "beam", "bean", "beanie", "beanstalk", "bear", "beard", "beast",
-"beat", "beautiful", "beauty", "beaver", "bed", "bedroom", "bee", "beech", "beef", "beer", "beet", "beetle", "beggar", "beginner", "beginning", "begonia",
-"behavior", "beheading", "behest", "being", "belfry", "belief", "believe", "bell", "belligerency", "bellows", "belly", "belt", "bench", "bend", "beneficiary",
-"benefit", "bengal", "beret", "berry", "bestseller", "best-seller", "bet", "beverage", "beyond", "bibliography", "bicycle", "bid", "bidet", "bifocals", "big",
-"big-rig", "bijou", "bike", "bikini", "bill", "billboard", "bin", "biology", "biplane", "birch", "bird", "birdbath", "birdcage", "birdhouse", "bird-watcher",
-"birth", "birthday", "bit", "bite", "bitter", "black", "blackberry", "blackboard", "blackfish", "bladder", "blade", "blame", "blank", "blanket", "blazer",
-"blight", "blind", "blinker", "blister", "blizzard", "block", "blocker", "blood", "bloodflow", "bloom", "bloomers", "blossom", "blouse", "blow", "blowgun",
-"blowhole", "blue", "blueberry", "boar", "board", "boat", "boat-building", "boatload", "boatyard", "bobcat", "body", "bog", "bolero", "bolt", "bomb", "bomber",
-"bondsman", "bone", "bongo", "bonnet", "bonsai", "bonus", "boogeyman", "book", "bookcase", "bookend", "booklet", "booster", "boot", "bootee", "bootie", "boots",
-"booty", "border", "bore", "bosom", "boss", "botany", "bother", "bottle", "bottling", "bottom", "bottom-line", "boudoir", "bough", "boundary", "bow", "bower",
-"bowl", "bowler", "bowling", "bowtie", "box", "boxer", "boxspring", "boy", "boyfriend", "bra", "brace", "bracelet", "bracket", "brain", "brake", "branch", "brand",
-"brandy", "brass", "brassiere", "bratwurst", "brave", "bread", "breadcrumb", "break", "breakfast", "breakpoint", "breast", "breastplate", "breath", "breeze", "bribery",
-"brick", "bricklaying", "bridge", "brief", "briefs", "brilliant", "british", "broad", "broccoli", "brochure", "broiler", "broker", "brome", "bronchitis", "bronco", "bronze",
-"brooch", "brood", "brook", "broom", "brother", "brother-in-law", "brow", "brown", "brush", "brushfire", "brushing", "bubble", "bucket", "buckle", "bud", "buddy", "budget",
-"buffer", "buffet", "bug", "buggy", "bugle", "building", "bulb", "bull", "bulldozer", "bullet", "bull-fighter", "bumper", "bun", "bunch", "bungalow", "bunghole", "bunkhouse", "burglar",
-"burlesque", "burn", "burn-out", "burst", "bus", "bush", "business", "bust", "bustle", "butane", "butcher", "butter", "button", "buy", "buyer", "buzzard", "cabana", "cabbage", "cabin",
-"cabinet", "cable", "caboose", "cacao", "cactus", "caddy", "cadet", "cafe", "caftan", "cake", "calcification", "calculation", "calculator", "calculus", "calendar", "calf", "calico",
+"beat", "beautiful", "beauty", "beaver", "bed", "bedroom", "bee", "breastplate", "breath", "breeze", "bribery",
+"brick", "bricklaying", "bridge", "brief", "briefs", "brilliant", "british", "broad", "broccoli", "brochure", "broiler", "broker", "calculator", "calculus", "calendar", "calf", "calico",
 "call", "calm", "camel", "cameo", "camera", "camp", "campaign", "campanile", "can", "canal", "cancel", "cancer", "candelabra", "candidate", "candle", "candy", "cane", "cannon", "canoe",
 "canon", "canopy", "canteen", "canvas", "cap", "cape", "capital", "capitulation", "capon", "cappelletti", "cappuccino", "captain", "caption", "car",
 "cardigan", "yeast", "yellow", "yesterday", "yew", "yin", "yoga", "yogurt", "yoke", "you", "young", "youth", "yurt", "zampone", "zebra", "zebrafish", "zephyr", "ziggurat", "zinc"]
