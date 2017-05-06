@@ -1,22 +1,16 @@
 import random
 
-questions = {
-    "strong": "Do ye like yer drinks strong? ",
-    "salty": "Do ye like it with a salty tang? ",
-    "bitter": "Are ye a lubber who likes it bitter? ",
-    "sweet": "Would ye like a bit of sweetness with yer poison? ",
-    "fruity": "Are ye one for a fruity finish? ",
-}
+if __name__ == '__main__':
+    main()
 
-ingredients = {
-    "strong": ["glug of rum", "slug of whisky", "splash of gin"],
-    "salty": ["olive on a stick", "salt-dusted rim", "rasher of bacon"],
-    "bitter": ["shake of bitters", "splash of tonic", "twist of lemon peel"],
-    "sweet": ["sugar cube", "spoonful of honey", "spash of cola"],
-    "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
-}
+def main():
+    '''Creates a drink based on users' drink style preferences'''
 
-preferences = {}
+    drink_preferences()
+    drink = make_drink(preferences)
+    print("Here's yer drink matey!")
+    print(*drink, sep=", ")
+
 
 def drink_preferences():
     '''Asks each question in the questions dictionary and saves all the responses in a new dictionary'''
@@ -57,11 +51,31 @@ def make_drink(preferences):
     return drink
 
 
+#Dictionaries
+questions = {
+    "strong": "Do ye like yer drinks strong? ",
+    "salty": "Do ye like it with a salty tang? ",
+    "bitter": "Are ye a lubber who likes it bitter? ",
+    "sweet": "Would ye like a bit of sweetness with yer poison? ",
+    "fruity": "Are ye one for a fruity finish? ",
+}
+
+ingredients = {
+    "strong": ["glug of rum", "slug of whisky", "splash of gin"],
+    "salty": ["olive on a stick", "salt-dusted rim", "rasher of bacon"],
+    "bitter": ["shake of bitters", "splash of tonic", "twist of lemon peel"],
+    "sweet": ["sugar cube", "spoonful of honey", "spash of cola"],
+    "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
+}
+
+preferences = {}
+
+
 #Tests
-drink_preferences()
-
-for flavour, isPreference in preferences.items():
-    print(flavour, isPreference)
-
-drink = make_drink(preferences)
+# drink_preferences()
+#
+# for flavour, isPreference in preferences.items():
+#     print(flavour, isPreference)
+#
+# drink = make_drink(preferences)
 # print(*drink, sep='\n')
