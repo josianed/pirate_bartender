@@ -7,11 +7,29 @@ if __name__ == '__main__':
 def main():
     '''Creates a drink based on users' drink style preferences'''
 
-    place_order = input("Ahoy matey! Would ye like a drink? ")
+    customer_name = input("Ho there matey! How are ye called? ")
+    regular_customer = customer_preferences.get(customer_name, "empty")
+    if regular_customer != "empty":
+        print("The usual for ya, the {}!".format(regular_customer))
+        print(*cocktails[regular_customer], sep=", ")
+        place_order = input("Would ye like another? ")
+        order(customer_name, place_order)
+    else:
+        place_order = input("Would ye like a drink, {}? ".format(customer_name))
+        order(customer_name, place_order)
+
+def order(customer_name, place_order):
+    '''Takes customer's order and makes drink if desired, or exits program if not'''
     while place_order == "yes":
         drink_preferences()
         drink = make_drink(preferences)
-        print("Here's yer drink matey!")
+        #generate name
+        name = cocktail_name()
+        #save to cocktail dictionary
+        cocktails[name] = drink
+        #save customer preference
+        customer_preferences[customer_name] = name
+        print("Here's the {}, {}!".format(name, customer_name))
         print(*drink, sep=", ")
         place_order = input("Would ye like another? ")
     if place_order == "no":
@@ -20,7 +38,6 @@ def main():
     else:
         print("Heave ahead matey, yer drunk!")
         sys.exit()
-
 
 def drink_preferences():
     '''Asks each question in the questions dictionary and saves all the responses in a new dictionary'''
@@ -60,11 +77,25 @@ def make_drink(preferences):
 
     return drink
 
-def cocktail_name():
 
+def cocktail_name():
+    adjective = random.choice(adjectives)
+    noun = random.choice(nouns)
+    name = "{} {}".format(adjective, noun)
+    return name
 
 
 #Dictionaries
+preferences = {}
+
+cocktails = {
+    "salty president": ["salt-dusted rim", "shake of bitters", "slice of orange", "glug of rum"],
+}
+
+customer_preferences = {
+    "Bailey": "salty president",
+}
+
 questions = {
     "strong": "Do ye like yer drinks strong? ",
     "salty": "Do ye like it with a salty tang? ",
@@ -81,7 +112,51 @@ ingredients = {
     "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
 }
 
-nouns = []
+nouns = ["aardvark", "abacus", "abbey", "abdomen", "ability", "abolishment", "abroad", "abuse", "accelerant",
+"accelerator", "access", "accident", "accommodation", "accompanist", "accordion", "account", "accountant", "achiever",
+"acid", "acknowledgment", "acoustic", "acoustics", "acrylic", "act", "action", "activity", "actor", "actress",
+"acupuncture", "ad", "adapter", "addiction", "addition", "address", "adjustment", "administration", "adrenalin", "adult",
+"adulthood", "advance", "advancement", "advantage", "advertisement", "advertising", "advice", "affair", "affect",
+"aftermath", "afternoon", "aftershave", "aftershock", "afterthought", "age", "agency", "agenda", "agent", "aggression", "aglet", "agreement",
+"aid", "air", "airbag", "airbus", "airfare", "airforce", "airline", "airmail", "airplane", "airport", "airship", "alarm", "alb", "albatross",
+"alcohol", "alcove", "alder", "algebra", "alibi", "allergist", "alley", "alligator",
+"alloy", "almanac", "almond", "alpaca", "alpenglow", "alpenhorn", "alpha", "alphabet", "alternative", "altitude",
+"alto", "aluminium", "aluminum", "ambassador", "ambition", "ambulance", "amendment", "amount", "amusement", "anagram",
+"analgesia", "analog", "analogue", "analogy", "analysis", "analyst", "anatomy", "anesthesiology", "anethesiologist", "anger",
+"angiosperm", "angle", "angora", "angstrom", "anguish", "apparatus", "apparel", "appeal", "appearance", "appendix",
+"applause", "apple", "applewood", "appliance", "application", "appointment", "approval", "apron", "apse", "aquifer",
+"arch", "archaeology", "archeology", "archer", "architect", "architecture", "arch-rival", "area", "argument", "arithmetic", "arm",
+"armadillo", "armament", "armchair", "armoire", "armor", "arm-rest", "army", "arrival", "arrow", "art", "artichoke", "article",
+"artificer", "ascot", "ash", "ashram", "ashtray", "aside", "ask", "asparagus", "aspect", "asphalt", "assignment",
+"assist", "assistance", "assistant", "associate", "association", "assumption", "asterisk", "astrakhan", "astrolabe",
+"astrologer", "astrology", "astronomy", "atelier", "athlete", "athletics", "atmosphere", "atom", "atrium", "attachment",
+"attack", "attempt", "attendant", "attention", "attenuation", "attic", "attitude", "attorney", "attraction", "audience", "auditorium",
+"aunt", "author", "authorisation", "authority", "authorization", "automaton", "avalanche", "avenue", "average", "award", "awareness",
+"azimuth", "babe", "baboon", "babushka", "baby", "back", "backbone", "backdrop", "background", "backpack", "bacon", "bad", "badge", "badger",
+"bafflement", "bag", "bagel", "baggage", "bagpipe", "bail", "bait", "bake", "baker", "bakery", "bakeware", "balaclava", "balalaika", "balance", "balcony", "ball",
+"ballet", "balloon", "ballpark", "bamboo", "banana", "band", "bandana", "bandanna", "bandolier", "bangle", "banjo", "bank", "bankbook", "banker", "banquette",
+"baobab", "bar", "barbeque", "barber", "barbiturate", "barge", "baritone", "barium", "barn", "barometer", "barracks", "barstool", "base", "baseball", "basement",
+"basin", "basis", "basket", "basketball", "bass", "bassinet", "bassoon", "bat", "bath", "bather", "bathhouse", "bathrobe", "bathroom", "bathtub", "batter",
+"battery", "batting", "battle", "battleship", "bay", "bayou", "beach", "bead", "beak", "beam", "bean", "beanie", "beanstalk", "bear", "beard", "beast",
+"beat", "beautiful", "beauty", "beaver", "bed", "bedroom", "bee", "beech", "beef", "beer", "beet", "beetle", "beggar", "beginner", "beginning", "begonia",
+"behavior", "beheading", "behest", "being", "belfry", "belief", "believe", "bell", "belligerency", "bellows", "belly", "belt", "bench", "bend", "beneficiary",
+"benefit", "bengal", "beret", "berry", "bestseller", "best-seller", "bet", "beverage", "beyond", "bibliography", "bicycle", "bid", "bidet", "bifocals", "big",
+"big-rig", "bijou", "bike", "bikini", "bill", "billboard", "bin", "biology", "biplane", "birch", "bird", "birdbath", "birdcage", "birdhouse", "bird-watcher",
+"birth", "birthday", "bit", "bite", "bitter", "black", "blackberry", "blackboard", "blackfish", "bladder", "blade", "blame", "blank", "blanket", "blazer",
+"blight", "blind", "blinker", "blister", "blizzard", "block", "blocker", "blood", "bloodflow", "bloom", "bloomers", "blossom", "blouse", "blow", "blowgun",
+"blowhole", "blue", "blueberry", "boar", "board", "boat", "boat-building", "boatload", "boatyard", "bobcat", "body", "bog", "bolero", "bolt", "bomb", "bomber",
+"bondsman", "bone", "bongo", "bonnet", "bonsai", "bonus", "boogeyman", "book", "bookcase", "bookend", "booklet", "booster", "boot", "bootee", "bootie", "boots",
+"booty", "border", "bore", "bosom", "boss", "botany", "bother", "bottle", "bottling", "bottom", "bottom-line", "boudoir", "bough", "boundary", "bow", "bower",
+"bowl", "bowler", "bowling", "bowtie", "box", "boxer", "boxspring", "boy", "boyfriend", "bra", "brace", "bracelet", "bracket", "brain", "brake", "branch", "brand",
+"brandy", "brass", "brassiere", "bratwurst", "brave", "bread", "breadcrumb", "break", "breakfast", "breakpoint", "breast", "breastplate", "breath", "breeze", "bribery",
+"brick", "bricklaying", "bridge", "brief", "briefs", "brilliant", "british", "broad", "broccoli", "brochure", "broiler", "broker", "brome", "bronchitis", "bronco", "bronze",
+"brooch", "brood", "brook", "broom", "brother", "brother-in-law", "brow", "brown", "brush", "brushfire", "brushing", "bubble", "bucket", "buckle", "bud", "buddy", "budget",
+"buffer", "buffet", "bug", "buggy", "bugle", "building", "bulb", "bull", "bulldozer", "bullet", "bull-fighter", "bumper", "bun", "bunch", "bungalow", "bunghole", "bunkhouse", "burglar",
+"burlesque", "burn", "burn-out", "burst", "bus", "bush", "business", "bust", "bustle", "butane", "butcher", "butter", "button", "buy", "buyer", "buzzard", "cabana", "cabbage", "cabin",
+"cabinet", "cable", "caboose", "cacao", "cactus", "caddy", "cadet", "cafe", "caftan", "cake", "calcification", "calculation", "calculator", "calculus", "calendar", "calf", "calico",
+"call", "calm", "camel", "cameo", "camera", "camp", "campaign", "campanile", "can", "canal", "cancel", "cancer", "candelabra", "candidate", "candle", "candy", "cane", "cannon", "canoe",
+"canon", "canopy", "canteen", "canvas", "cap", "cape", "capital", "capitulation", "capon", "cappelletti", "cappuccino", "captain", "caption", "car",
+"cardigan", "yeast", "yellow", "yesterday", "yew", "yin", "yoga", "yogurt", "yoke", "you", "young", "youth", "yurt", "zampone", "zebra", "zebrafish", "zephyr", "ziggurat", "zinc"]
 
 adjectives = ["acerbic", "acid", "acidic", "acrid", "aftertaste", "aged", "ambrosial", "ample", "appealing", "appetizing", "aromatic", "astringent", "baked", "balsamic", "beautiful", "bite-size", "bitter", "bland", "blazed",
  "blended", "blunt", "boiled", "brackish", "briny", "brown", "browned", "burnt", "buttered", "caked", "calorie", "candied", "caramelized", "caustic", "center cut", "char-broiled", "cheesy", "chilled", "chocolaty", "choice",
@@ -98,7 +173,7 @@ adjectives = ["acerbic", "acid", "acidic", "acrid", "aftertaste", "aged", "ambro
  "sugared", "sugarless", "sugary", "superb", "sweet", "sweet-and-sour", "sweetened", "syrupy", "tangy", "tantalizing", "tart", "tasteful", "tasteless", "tasty", "tender", "tepid", "terrific", "thick", "thin", "toasted", "toothsome", "topped",
  "tossed", "tough", "traditional", "treacly", "treat", "unflavored", "unsavory", "unseasoned", "vanilla", "velvety", "vinegary", "warm", "waxy", "weak", "whipped", "whole", "wonderful", "yucky", "yummy", "zesty", "zingy"]
 
-preferences = {}
+
 
 
 #Tests
