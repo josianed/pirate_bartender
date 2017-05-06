@@ -1,4 +1,5 @@
 import random
+import sys
 
 if __name__ == '__main__':
     main()
@@ -6,10 +7,19 @@ if __name__ == '__main__':
 def main():
     '''Creates a drink based on users' drink style preferences'''
 
-    drink_preferences()
-    drink = make_drink(preferences)
-    print("Here's yer drink matey!")
-    print(*drink, sep=", ")
+    place_order = input("Ahoy matey! Would ye like a drink? ")
+    while place_order == "yes":
+        drink_preferences()
+        drink = make_drink(preferences)
+        print("Here's yer drink matey!")
+        print(*drink, sep=", ")
+        place_order = input("Would ye like another? ")
+    if place_order == "no":
+        print("Fair winds and following seas matey!")
+        sys.exit()
+    else:
+        print("Heave ahead matey, yer drunk!")
+        sys.exit()
 
 
 def drink_preferences():
