@@ -94,9 +94,7 @@ def stock_control(ingredient):
     if stock[ingredient] == 0:
         return False
     else:
-        print("before: {}".format(stock[ingredient]))
         stock[ingredient] -= 1
-        print("after: {}".format(stock[ingredient]))
         return True
 
 def check_stock():
