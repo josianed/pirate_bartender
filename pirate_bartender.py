@@ -1,3 +1,5 @@
+import random
+
 questions = {
     "strong": "Do ye like yer drinks strong? ",
     "salty": "Do ye like it with a salty tang? ",
@@ -14,16 +16,10 @@ ingredients = {
     "fruity": ["slice of orange", "dash of cassis", "cherry on top"],
 }
 
-preferences = {
-    # "strong": False,
-    # "salty": False,
-    # "bitter": False,
-    # "sweet": False,
-    # "fruity": False,
-}
+preferences = {}
 
 def drink_preferences():
-    '''Asks each question in the questions dictionary and saves all the positive responses in a new dictionary'''
+    '''Asks each question in the questions dictionary and saves all the responses in a new dictionary'''
 
     print("Let's see what yer perfect drink is like! Answer yes/y or no/n to each of these questions: ")
     for c, q in questions.items():
@@ -47,8 +43,25 @@ def add_to_dictionary(flavour, answer):
         preferences[flavour] = False
 
 
+def make_drink(preferences):
+    '''Takes the customer's preferences and creates a drink using the ingredients dictionary'''
 
+    drink = []
+
+    for flavour, isPreference in preferences.items():
+        if preferences[flavour] == True:
+            ingredient = random.choice(ingredients[flavour])
+            # print("Added {} to yer drink!".format(ingredient))
+            drink.append(ingredient)
+
+    return drink
+
+
+#Tests
 drink_preferences()
 
-for flavour, like in preferences.items():
-    print(flavour, like)
+for flavour, isPreference in preferences.items():
+    print(flavour, isPreference)
+
+drink = make_drink(preferences)
+# print(*drink, sep='\n')
